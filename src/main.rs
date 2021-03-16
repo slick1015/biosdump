@@ -7,6 +7,6 @@ mod cpu;
 
 fn main() -> Result<(), Box<dyn Error>> {
     let cpu = CpuInterface::new();
-    println!("{:04}", cpu.read_pci_dword(0, 31, 0, 0xf0));
+    println!("{:04x}", cpu.read_pci_dword(0, 31, 0, 0xf0));
     Ok(())
 }
