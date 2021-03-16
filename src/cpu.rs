@@ -56,7 +56,7 @@ impl CpuInterface {
 
         let address =
             0x80000000u32 |
-            (bus << 16) | (device << 11) | (function << 8) | (offset * 0xfc);
+            (bus << 16) | (device << 11) | (function << 8) | (offset & 0xfc);
 
         self.out32(IO_PORT_PCI_CONFIG_ADDRESS, address);
 
