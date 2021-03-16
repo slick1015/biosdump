@@ -48,7 +48,7 @@ impl CpuInterface {
         self.wr.write_msr(address, value)
     }
 
-    pub fn read_pci_word(&self, bus: u8, device: u8, function: u8, offset: u8) -> u16{
+    pub fn read_pci_word(&self, bus: u8, device: u8, function: u8, offset: u8) -> u16 {
         let bus = bus as u32;
         let device = device as u32;
         let function = function as u32;
@@ -61,5 +61,20 @@ impl CpuInterface {
         self.out32(IO_PORT_PCI_CONFIG_ADDRESS, address);
 
         ((self.in32(IO_PORT_PCI_CONFIG_DATA) >> ((offset & 2) * 8)) & 0xffff) as u16
+    }
+
+    pub fn read_pci_dword(&self, bus: u8, device: u8, function: u8, offset: u8) -> u32 {
+        let bus = bus as u32;
+        let device = device as u32;
+        let function = function as u32;
+        let offset = offset as u32;
+
+        let address =
+            0x80000000u32 |
+                (bus << 16) | (device << 11) | (function << 8) | (offset & 0xfc);
+
+        self.out32(IO_PORT_PCI_CONFIG_ADDRESS, address);
+
+        self.in32(IO_PORT_PCI_CONFIG_DATA)
     }
 }
